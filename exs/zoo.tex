@@ -1,0 +1,23 @@
+\documentclass[tikz,border=5pt,multi]{standalone}
+\usepackage{forest,array}
+\usetikzlibrary{shadows}
+\newcolumntype{C}[1]{>{\centering}p{#1}}
+\begin{document}
+
+  \begin{forest}
+    [Animals
+      [Dogs]
+        [Pluto]
+        [Snoopy]
+      [Cats]
+        [Felix]
+        [Peppy]
+      [Birds
+        [Tweety]
+        [Donald Duck]
+        [Daffy Duck]
+      ]
+    ]
+  \end{forest}
+
+\end{document}

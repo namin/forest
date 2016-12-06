@@ -1,0 +1,43 @@
+% from
+% http://tex.stackexchange.com/questions/246831/how-to-convert-my-word-organisation-chart-to-latex/247342#247342
+
+\documentclass[tikz,border=5pt,multi]{standalone}
+\usepackage{forest,array}
+\usetikzlibrary{shadows}
+\newcolumntype{C}[1]{>{\centering}p{#1}}
+\begin{document}
+
+  \begin{forest}
+    for tree={
+      if level=0{align=center}{% allow multi-line text and set alignment
+        align={@{}C{25mm}@{}},
+      },
+      draw,
+      font=\sffamily\bfseries,
+      edge path={
+        \noexpand\path [draw, \forestoption{edge}] (!u.parent anchor) -- +(0,-5mm) -| (.child anchor)\forestoption{edge label};
+      },
+      parent anchor=south,
+      child anchor=north,
+      l sep=10mm,
+      tier/.wrap pgfmath arg={tier #1}{level()},
+      edge={ultra thick, rounded corners=2pt},
+      ultra thick,
+      inner color=gray!5,
+      outer color=gray!20,
+      rounded corners=2pt,
+      drop shadow,
+    }
+    [multiple line\\text
+      [text]
+      [very long single line text]
+      [text
+        [text]
+        [text]
+        [text]
+      ]
+      [text]
+    ]
+  \end{forest}
+
+\end{document}
