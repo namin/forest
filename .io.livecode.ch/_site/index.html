@@ -1,6 +1,6 @@
 {% extends "base_livecode.html" %}
 
-{% block title %}The Forest -- Don't Miss it for the Trees{% endblock %}
+{% block title %}The Forest{% endblock %}
 
 {% block content %}
 
@@ -11,9 +11,7 @@
 #!/bin/bash
 set -e -v
 
-cat $1 >forest.tex
-pdflatex forest.tex
-pdflatex forest.tex
+echo OK
 </div>
 
 {% endblock %}
