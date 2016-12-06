@@ -5,12 +5,6 @@
 {% block content %}
 
 <div class="live norun" id="ex1">
-\documentclass[tikz,border=5pt,multi]{standalone}
-\usepackage{forest,array}
-\usetikzlibrary{shadows}
-\newcolumntype{C}[1]{>{\centering}p{#1}}
-\begin{document}
-
   \begin{forest}
     [Animals
       [Dogs]
@@ -25,9 +19,6 @@
         [Daffy Duck]
       ]
     ]
-  \end{forest}
-
-\end{document}
 </div>
 
 <div class="live" id="run1" data-lib="ex1" data-mode="text/x-sh">
