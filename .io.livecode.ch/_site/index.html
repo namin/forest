@@ -4,19 +4,16 @@
 
 {% block content %}
 
-<div class="live norun" id="pre">
-{% raw %}
+<div class="live norun" id="pre">{% raw %}
 \documentclass[tikz,border=5pt,multi]{standalone}
 \usepackage{forest,array}
 \usetikzlibrary{shadows}
 \newcolumntype{C}[1]{>{\centering}p{#1}}
 \begin{document}
-\begin{forest}
-{% endraw %}
+\begin{forest}{% endraw %}
 </div>
 
-<div class="live norun" id="body">
-{% raw %}
+<div class="live norun" id="body">{% raw %}
 [Animals
   [Dogs
     [Pluto]
@@ -31,15 +28,11 @@
     [Donald Duck]
     [Daffy Duck]
   ]
-]
-{% endraw %}
+]{% endraw %}
 </div>
 
-<div class="live norun" id="post">
-{% raw %}
-\end{forest}
-\end{document}
-{% endraw %}
+<div class="live norun" id="post">{% raw %}\end{forest}
+\end{document}{% endraw %}
 </div>
 
 <div class="live" id="run" data-lib="pre body post" data-mode="text/x-sh">
