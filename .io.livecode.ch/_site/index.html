@@ -4,24 +4,45 @@
 
 {% block content %}
 
-<div class="live norun" id="ex1">
-  parent:child
-  :Animals
-  Animals:Dogs
-  Animals:Cats
-  Animals:Birds
-  Dogs:Pluto
-  Dogs:Snoopy
-  Cats:Felix
-  Cats:Peppy
-  Birds:Tweety
-  Birds:Donald Duck
-  Birds:Daffy Duck
+<div class="live norun" id="pre">
+\documentclass[tikz,border=5pt,multi]{standalone}
+\usepackage{forest,array}
+\usetikzlibrary{shadows}
+\newcolumntype{C}[1]{>{\centering}p{#1}}
+\begin{document}
+\begin{forest}
 </div>
 
-<div class="live" id="run1" data-lib="ex1" data-mode="text/x-sh">
+<div class="live norun" id="body">
+[Animals
+  [Dogs
+    [Pluto]
+    [Snoopy]
+  ]
+  [Cats
+    [Felix]
+    [Peppy]
+  ]
+  [Birds
+    [Tweety]
+    [Donald Duck]
+    [Daffy Duck]
+  ]
+]
+</div>
+
+<div class="live norun" id="post">
+\end{forest}
+\end{document}
+</div>
+
+<div class="live" id="run" data-lib="pre body post" data-mode="text/x-sh">
 #!/bin/bash
 set -e -v
+
+cat $1 >ex.tex
+pdflatex ex.tex
+pdflatex ex.tex
 
 echo OK
 </div>
