@@ -5,34 +5,12 @@
 {% block content %}
 
 <div class="live norun" id="pre">
-\documentclass[tikz,border=5pt,multi]{standalone}
-\usepackage{forest,array}
-\usetikzlibrary{shadows}
-\begin{document}
-\begin{forest}
 </div>
 
 <div class="live norun" id="body">
-[Animals
-  [Dogs
-    [Pluto]
-    [Snoopy]
-  ]
-  [Cats
-    [Felix]
-    [Peppy]
-  ]
-  [Birds
-    [Tweety]
-    [Donald Duck]
-    [Daffy Duck]
-  ]
-]
 </div>
 
 <div class="live norun" id="post">
-\end{forest}
-\end{document}
 </div>
 
 <div class="live" id="run" data-lib="pre body post" data-mode="text/x-sh">
