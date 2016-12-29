@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<title>Network | Hierarchical layout</title>
+<style type="text/css">
+#mynetwork {
+  width: 600px;
+  height: 600px;
+  border: 1px solid lightgray;
+}
+</style>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.css" rel="stylesheet" type="text/css"/>
+
+<script type="text/javascript">
+var nodes = new vis.DataSet([
+        {id: 1, label: 'Animals'},
+        {id: 2, label: 'Dogs'},
+        {id: 3, label: 'Cats'},
+        {id: 4, label: 'Birds'},
+        {id: 5, label: 'Pluto'},
+        {id: 6, label: 'Snoopy'},
+        {id: 7, label: 'Felix'},
+        {id: 8, label: 'Peppy'},
+        {id: 9, label: 'Tweety'},
+        {id: 10,label: 'Donald Duck'},
+        {id: 11,label: 'Daffy Duck'}
+]);
+
+ var edges = new vis.DataSet([
+        {from: 1, to: 2},
+        {from: 1, to: 3},
+        {from: 1, to: 4},
+        {from: 2, to: 5},
+        {from: 2, to: 6},
+        {from: 3, to: 7},
+        {from: 3, to: 8},
+        {from: 4, to: 9},
+        {from: 4, to: 10},
+        {from: 4, to: 11}
+]);
+var network = null;
+
+function destroy() {
+    if (network !== null) {
+      network.destroy();
+      network = null;
+    }
+}
+
+function draw() {
+    destroy();
+    var data = {
+      nodes: nodes,
+      edges: edges
+    };
+
+    // create a network
+    var container = document.getElementById('mynetwork');
+    var directionInput = 'UD';
+    var options = {
+      edges: {
+        smooth: {
+          type: 'cubicBezier',
+          forceDirection: (directionInput == "UD" || directionInput == "DU") ? 'vertical' : 'horizontal',
+          roundness: 0.4
+        },
+        arrows: {to: true }
+      },
+      layout: {
+        hierarchical: {
+          sortMethod: "directed",
+          direction: directionInput
+        }
+      },
+      physics:true
+    };
+    network = new vis.Network(container, data, options);
+
+    // add event listeners
+    network.on('select', function (params) {
+      document.getElementById('selection').innerHTML = 'Selection: ' + params.nodes;
+    });
+}
+</script>
+</head>
+<body onload="draw();">
+
+<div id="mynetwork"></div>
+
+<p id="selection"></p>
+</body>
+</html>
