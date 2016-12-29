@@ -2,6 +2,20 @@
 
 {% block title %}The Forest{% endblock %}
 
+{% block head_extra %}
+{{ super() }}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.css" rel="stylesheet" type="text/css"/>
+<style type="text/css">
+#mynetwork {
+  width: 600px;
+  height: 300px;
+  margin-bottom: 1em;
+  border: 1px solid lightgray;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 
 <script>
@@ -18,6 +32,77 @@ function livecode_process_data(id, data) {
   $('#boxit-'+id).html('(<a href="'+link+'">PDF</a>)');
   return "";
 }
+</script>
+
+<script>
+function text2data(txt) {
+  var count = 0;
+  var parents = [];
+  var nodes = [];
+  var edges = [];
+  var label_start = null;
+  var state = 0;
+  for (var i=0; i<txt.length; i++) {
+    var c = txt[i];
+    if (state==0 && c=='[') {
+      label_start = i+1;
+      state = 1;
+    }
+    if (state==1 && (c=='\n' || c==']')) {
+      var label = txt.substring(label_start, i).trim();
+      count++;
+      nodes.push({id: count, label: label});
+      if (parents.length != 0) {
+        edges.push({from: parents[parents.length-1], to: count});
+      }
+      parents.push(count);
+      state = 0;
+    }
+    if (c==']') {
+      parents.pop();
+    }
+  }
+  return {
+    nodes: new vis.DataSet(nodes),
+    edges: new vis.DataSet(edges)
+  };
+}
+function getMyEditorValue() {
+  var r = $('#code-body').next('.CodeMirror').get(0);
+  if (r) return r.CodeMirror.getValue();
+  else return $('#body').text();
+}
+var myNetwork = null;
+function drawMyNetwork() {
+  var txt = getMyEditorValue();
+  var data = text2data(txt);
+  if (myNetwork !== null) {
+    myNetwork.destroy();
+    myNetwork = null;
+  }
+  if (data == null) return;
+  var container = document.getElementById('mynetwork');
+  var directionInput = 'UD';
+  var options = {
+    edges: {
+      smooth: {
+        type: 'cubicBezier',
+        forceDirection: (directionInput == "UD" || directionInput == "DU") ? 'vertical' : 'horizontal',
+        roundness: 0.4
+      },
+      arrows: {to: true }
+    },
+    layout: {
+      hierarchical: {
+        sortMethod: "directed",
+        direction: directionInput
+      }
+    },
+    physics:true
+  };
+  myNetwork = new vis.Network(container, data, options);
+}
+$(document).ready(drawMyNetwork);
 </script>
 
 {% raw %}
@@ -45,6 +130,12 @@ function livecode_process_data(id, data) {
     [Daffy Duck]
   ]
 ]</div>
+
+<form onsubmit="drawMyNetwork(); return false;">
+    <input type="submit" value="(redraw)">
+</form>
+<div id=mynetwork>
+</div>
 
 <div class="live norun" id="post">
 \end{forest}
