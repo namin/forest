@@ -4,6 +4,22 @@
 
 {% block content %}
 
+<script>
+function livecode_html_extra(id) {
+  return '<div class=boxit id='+'boxit-'+id+'></div>'
+}
+function livecode_process_data(id, data) {
+  var re = /"link":"(https:\/\/file.io\/[a-zA-z]+)"/;
+  var m = re.exec(data);
+  if (!m) {
+    return data;
+  }
+  var link = m[1];
+  $('#boxit-'+id).html('(<a href="'+link+'">PDF</a>)');
+  return "";
+}
+</script>
+
 {% raw %}
 <div class="live norun" id="pre">
 \documentclass[tikz,border=5pt,multi]{standalone}
@@ -44,6 +60,8 @@ pdflatex ex.tex
 pdflatex ex.tex
 
 echo OK
+curl -F "file=@ex.pdf" https://file.io
+
 </div>
 {% endraw %}
 
