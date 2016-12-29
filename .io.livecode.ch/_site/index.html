@@ -9,7 +9,7 @@ function livecode_html_extra(id) {
   return '<div class=boxit id='+'boxit-'+id+'></div>'
 }
 function livecode_process_data(id, data) {
-  var re = /"link":"(https:\/\/file.io\/[a-zA-z]+)"/;
+  var re = /"link":"(https:\/\/file.io\/[a-zA-z0-9]+)"/;
   var m = re.exec(data);
   if (!m) {
     return data;
